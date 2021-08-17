@@ -2,6 +2,7 @@
 
 return [
     'button_menuitems' => 'Menu items',
+    'button_menuoptions' => 'Menu options',
     'button_stock' => 'Back in stock',
     'button_nostock' => 'Out of stock',
 

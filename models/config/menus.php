@@ -10,7 +10,7 @@ return [
         'toolbar' => [
             'buttons' => [
 		        'menuitems' => [
-		            'label' => 'lang:thoughtco.outofstock::default.button_menuitems',
+		            'label' => 'lang:thoughtco.outofstock::default.button_menuoptions',
 		            'class' => 'btn btn-secondary',
 		            'href' => 'thoughtco/outofstock/menuitems',
 		        ],
