@@ -22,18 +22,18 @@ class Extension extends BaseExtension
                 $cache_menu_items = Outofstock::where(['location_id' => Location::getId(), 'type' => 'menuitems'])->get()->pluck('type_id');
 
             // if entire menu is out of stock
-            if ($cache_menus->contains($model->getKey()))
-               return TRUE;
+            if ($cache_menus->contains($model->getKey())){
+               return FALSE;
+            }
 
             // if menu item is out of stock
             $model->menu_options = $model->menu_options->filter(function (&$menu_option) use ($cache_menu_items) {
                 $menu_option->menu_option_values = $menu_option->menu_option_values->filter(function ($option_value) use ($cache_menu_items) {
-                    return !$cache_menu_items->contains($option_value->option_value->id);
+                    return !$cache_menu_items->contains($option_value->option_value_id);
                 });
 
                 return $menu_option;
             });
-
         });
     }
 
