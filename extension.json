@@ -1,0 +1,13 @@
+{
+  "code": "thoughtco.outofstock",
+  "name": "Out of stock",
+  "description": "Lets you quickly manage out of stock menus and menu items",
+  "version": "1.0.0",
+  "author": "ryanmitchell",
+  "icon": {
+    "class": "fa fa-times",
+    "backgroundColor": "#111",
+    "color": "#FFF"
+  },
+  "homepage": "https://github.com/thoughtco/ti-ext-outofstock"
+}
