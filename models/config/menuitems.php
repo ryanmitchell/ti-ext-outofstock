@@ -14,11 +14,16 @@ return [
 		            'class' => 'btn btn-secondary',
 		            'href' => 'thoughtco/outofstock/menus',
 		        ],
+		        'categories' => [
+		            'label' => 'lang:thoughtco.outofstock::default.button_categories',
+		            'class' => 'btn btn-secondary',
+		            'href' => 'thoughtco/outofstock/categories',
+		        ],
             ],
         ],
 		'filter' => [
             'search' => [
-                'prompt' => 'lang:thoughtco.outofstock::default.label_filter_search',
+                'prompt' => 'lang:thoughtco.outofstock::default.label_filter_search_options',
                 'mode' => 'all',
             ],
 		],

@@ -4,13 +4,13 @@ namespace Thoughtco\Outofstock\Controllers;
 
 use AdminMenu;
 use Admin\Facades\AdminLocation;
-use Admin\Models\Menus_model;
+use Admin\Models\Categories_model;
 use ApplicationException;
 use Redirect;
 use Template;
 use Thoughtco\Outofstock\Models\Outofstock;
 
-class Menus extends \Admin\Classes\AdminController
+class Categories extends \Admin\Classes\AdminController
 {
     public $implement = [
         'Admin\Actions\ListController',
@@ -18,11 +18,11 @@ class Menus extends \Admin\Classes\AdminController
 
     public $listConfig = [
         'list' => [
-            'model' => 'Admin\Models\Menus_model',
+            'model' => 'Admin\Models\Categories_model',
             'title' => 'lang:thoughtco.outofstock::default.text_title',
             'emptyMessage' => 'lang:thoughtco.outofstock::default.text_empty',
-            'defaultSort' => ['menu_name', 'ASC'],
-            'configFile' => 'menus',
+            'defaultSort' => ['category_name', 'ASC'],
+            'configFile' => 'categories',
             'showCheckboxes' => FALSE,
         ],
     ];
@@ -52,10 +52,10 @@ class Menus extends \Admin\Classes\AdminController
         if (!$id)
             abort(404);
 
-        $this->checkMenuItemExists($id);
+        $this->checkCategoryExists($id);
 
         $params = [
-            'type' => 'menus',
+            'type' => 'categories',
             'type_id' => $id,
             'location_id' => AdminLocation::getId(),
         ];
@@ -72,10 +72,10 @@ class Menus extends \Admin\Classes\AdminController
         if (!$id)
             abort(404);
 
-        $this->checkMenuItemExists($id);
+        $this->checkCategoryExists($id);
 
         $params = [
-            'type' => 'menus',
+            'type' => 'categories',
             'type_id' => $id,
             'location_id' => AdminLocation::getId(),
         ];
@@ -86,9 +86,9 @@ class Menus extends \Admin\Classes\AdminController
         return Redirect::back();
     }
 
-    private function checkMenuItemExists($id)
+    private function checkCategoryExists($id)
     {
-        if (!Menus_model::find($id))
+        if (!Categories_model::find($id))
             abort(404);
     }
 }

@@ -13,7 +13,8 @@ class Extension extends BaseExtension
     {
         $cache_menus = NULL;
         $cache_menu_items = NULL;
-        Event::listen('admin.menu.isAvailable', function (&$model, $dateTime, $isAvailable) use (&$cache_menus, &$cache_menu_items) {
+        $cache_categories = NULL;
+        Event::listen('admin.menu.isAvailable', function (&$model, $dateTime, $isAvailable) use (&$cache_menus, &$cache_menu_items, &$cache_categories) {
 
             if (is_null($cache_menus))
                 $cache_menus = Outofstock::where(['location_id' => Location::getId(), 'type' => 'menus'])->get()->pluck('type_id');
@@ -21,10 +22,17 @@ class Extension extends BaseExtension
             if (is_null($cache_menu_items))
                 $cache_menu_items = Outofstock::where(['location_id' => Location::getId(), 'type' => 'menuitems'])->get()->pluck('type_id');
 
+            if (is_null($cache_categories))
+                $cache_categories = Outofstock::where(['location_id' => Location::getId(), 'type' => 'categories'])->get()->pluck('type_id');
+
             // if entire menu is out of stock
             if ($cache_menus->contains($model->getKey())){
                return FALSE;
             }
+
+            // if entire category is out of stock
+			if (count(array_intersect($cache_categories->toArray(), $model->categories->pluck('category_id')->toArray())) > 0)
+               return FALSE;
 
             // if menu item is out of stock
             $model->menu_options = $model->menu_options->filter(function (&$menu_option) use ($cache_menu_items) {
