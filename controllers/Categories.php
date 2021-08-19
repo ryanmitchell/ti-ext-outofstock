@@ -91,7 +91,7 @@ class Categories extends \Admin\Classes\AdminController
             $hours = request('hours', '');
             if ($hours != '' AND $hours != 'forever') {
                 if ($hours != 'closing') {
-                    $params['timeout'] = Carbon::now()->addHours(int ($hours))->format('Y-m-d H:i:s');
+                    $params['timeout'] = Carbon::now()->addHours((int)$hours)->format('Y-m-d H:i:s');
                 } else {
                     if ($closing = AdminLocation::current()->newWorkingSchedule('opening')->getCloseTime())
                         $params['timeout'] = $closing->format('Y-m-d H:i:s');
