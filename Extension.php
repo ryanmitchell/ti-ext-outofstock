@@ -80,7 +80,7 @@ class Extension extends BaseExtension
                         'class' => 'pages',
                         'href' => admin_url('thoughtco/outofstock/menus'),
                         'title' => lang('lang:thoughtco.outofstock::default.text_title'),
-                        'permission' => 'Thoughtco.Outofstock.Manage',
+                        'permission' => 'Thoughtco.Outofstock.*',
                     ],
                 ],
             ],
@@ -91,7 +91,11 @@ class Extension extends BaseExtension
     {
         return [
             'Thoughtco.OutOfStock.Manage' => [
-                'description' => 'Manage Out Of Stock Settings',
+                'description' => lang('lang:thoughtco.outofstock::default.text_permissions'),
+                'group' => 'module',
+            ],
+            'Thoughtco.OutOfStock.Settings' => [
+                'description' => lang('lang:thoughtco.outofstock::default.text_permissions_settings'),
                 'group' => 'module',
             ],
         ];
@@ -102,10 +106,10 @@ class Extension extends BaseExtension
         return [
             'settings' => [
                 'icon' => 'fa fa-random',
-                'label' => 'Out of stock Settings',
-                'description' => 'Configure out of stock settings',
+                'label' => lang('lang:thoughtco.outofstock::default.text_settings_label'),
+                'description' => lang('lang:thoughtco.outofstock::default.text_settings_description'),
                 'model' => 'Thoughtco\OutOfStock\Models\Settings',
-                'permissions' => ['Thoughtco.OutOfStock.Manage'],
+                'permissions' => ['Thoughtco.OutOfStock.Settings'],
             ],
         ];
     }

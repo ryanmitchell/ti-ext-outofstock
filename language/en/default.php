@@ -19,6 +19,10 @@ return [
     'label_filter_search_options' => 'Search menu options',
 
     'text_empty' => 'No results found',
+    'text_permissions' => 'Use Out Of Stock views',
+    'text_permissions_settings' => 'Manage Out Of Stock Settings',
     'text_select_location' => 'Select a location',
+    'text_settings_label' => 'Out of stock Settings',
+    'text_settings_description' => 'Configure out of stock settings',
     'text_title' => 'Out of stock',
 ];

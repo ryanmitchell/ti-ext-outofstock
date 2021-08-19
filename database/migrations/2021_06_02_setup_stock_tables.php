@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Thoughtco\Outofstock\Database\Migrations;
 
@@ -17,6 +17,7 @@ class StockTables extends Migration
             $table->string('type', 15);
             $table->integer('type_id');
             $table->integer('location_id');
+            $table->dateTime('timeout')->nullable();
         });
     }
 
