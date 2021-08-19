@@ -2,6 +2,7 @@
 
 namespace Thoughtco\Outofstock;
 
+use Carbon\Carbon;
 use Event;
 use Igniter\Local\Facades\Location;
 use System\Classes\BaseExtension;
@@ -17,13 +18,37 @@ class Extension extends BaseExtension
         Event::listen('admin.menu.isAvailable', function (&$model, $dateTime, $isAvailable) use (&$cache_menus, &$cache_menu_items, &$cache_categories) {
 
             if (is_null($cache_menus))
-                $cache_menus = Outofstock::where(['location_id' => Location::getId(), 'type' => 'menus'])->get()->pluck('type_id');
+                $cache_menus = Outofstock::where(['location_id' => Location::getId(), 'type' => 'menus'])
+                    ->where(function ($subquery) {
+                        return $subquery->whereNull('timeout')
+                            ->orWhere([
+                                ['timeout', '<', Carbon::now()->format('Y-m-d H:i:s')]
+                            ]);
+                    })
+                    ->get()
+                    ->pluck('type_id');
 
             if (is_null($cache_menu_items))
-                $cache_menu_items = Outofstock::where(['location_id' => Location::getId(), 'type' => 'menuitems'])->get()->pluck('type_id');
+                $cache_menu_items = Outofstock::where(['location_id' => Location::getId(), 'type' => 'menuitems'])
+                    ->where(function ($subquery) {
+                        return $subquery->whereNull('timeout')
+                            ->orWhere([
+                                ['timeout', '<', Carbon::now()->format('Y-m-d H:i:s')]
+                            ]);
+                    })
+                    ->get()
+                    ->pluck('type_id');
 
             if (is_null($cache_categories))
-                $cache_categories = Outofstock::where(['location_id' => Location::getId(), 'type' => 'categories'])->get()->pluck('type_id');
+                $cache_categories = Outofstock::where(['location_id' => Location::getId(), 'type' => 'categories'])
+                    ->where(function ($subquery) {
+                        return $subquery->whereNull('timeout')
+                            ->orWhere([
+                                ['timeout', '<', Carbon::now()->format('Y-m-d H:i:s')]
+                            ]);
+                    })
+                    ->get()
+                    ->pluck('type_id');
 
             // if entire menu is out of stock
             if ($cache_menus->contains($model->getKey())){
@@ -58,6 +83,29 @@ class Extension extends BaseExtension
                         'permission' => 'Thoughtco.Outofstock.Manage',
                     ],
                 ],
+            ],
+        ];
+    }
+
+    public function registerPermissions()
+    {
+        return [
+            'Thoughtco.OutOfStock.Manage' => [
+                'description' => 'Manage Out Of Stock Settings',
+                'group' => 'module',
+            ],
+        ];
+    }
+
+    public function registerSettings()
+    {
+        return [
+            'settings' => [
+                'icon' => 'fa fa-random',
+                'label' => 'Out of stock Settings',
+                'description' => 'Configure out of stock settings',
+                'model' => 'Thoughtco\OutOfStock\Models\Settings',
+                'permissions' => ['Thoughtco.OutOfStock.Manage'],
             ],
         ];
     }

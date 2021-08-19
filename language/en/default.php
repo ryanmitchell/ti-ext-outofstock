@@ -2,6 +2,8 @@
 
 return [
     'button_categories' => 'Categories',
+    'button_closing' => 'Until closing',
+    'button_forever' => 'Forever',
     'button_menuitems' => 'Menu items',
     'button_menuoptions' => 'Menu options',
     'button_stock' => 'Back in stock',
@@ -10,6 +12,9 @@ return [
     'column_option' => 'Option',
     'column_name' => 'Name',
 
+    'label_delay_times' => 'Delay Times',
+    'label_delay_label' => 'Delay Text',
+    'label_delay_amount' => 'Delay Amount (Hours)',
     'label_filter_search' => 'Search menus items',
     'label_filter_search_options' => 'Search menu options',
 

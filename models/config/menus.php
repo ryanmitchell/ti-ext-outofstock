@@ -1,5 +1,7 @@
 <?php
 
+use Thoughtco\OutOfStock\Models\Settings;
+
 $cache_menus = \Thoughtco\Outofstock\Models\Outofstock::where([
     'type' => 'menus',
     'location_id' => \AdminLocation::getId(),
@@ -38,7 +40,18 @@ return [
 				'type' => 'text',
 				'sortable' => FALSE,
 				'formatter' => function ($record, $column, $value) use ($cache_menus) {
-					return $cache_menus->contains($value) ? '<a class="btn btn-success" href="'.admin_url('thoughtco/outofstock/menus/stock/'.$value).'">'.__('lang:thoughtco.outofstock::default.button_stock').'</a>' : '<a class="btn btn-danger" href="'.admin_url('thoughtco/outofstock/menus/nostock/'.$value).'">'.__('lang:thoughtco.outofstock::default.button_nostock').'</a>';
+					if ($cache_menus->contains($value))
+                        return '<a class="btn btn-success" href="'.admin_url('thoughtco/outofstock/menus/stock/'.$value).'">'.__('lang:thoughtco.outofstock::default.button_stock').'</a>';
+
+                    return '<button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">'.lang('lang:thoughtco.outofstock::default.button_nostock').'</button>
+						  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							'.(collect(Settings::get('delay_times', []))->map(function ($delay) use ($value) {
+								return '<a class="dropdown-item" href="'.admin_url('thoughtco/outofstock/menus/nostock/'.$value.'?hours='.$delay['time']).'">'.$delay['label'].'</a>';
+							})->join(' ')).'
+						    <a class="dropdown-item" href="'.admin_url('thoughtco/outofstock/menus/nostock/'.$value).'?hours=closing">'.lang('thoughtco.outofstock::default.button_closing').'</a>
+						    <a class="dropdown-item" href="'.admin_url('thoughtco/outofstock/menus/nostock/'.$value).'">'.lang('thoughtco.outofstock::default.button_forever').'</a>
+						  </div>';
+
 				}
 			],
 

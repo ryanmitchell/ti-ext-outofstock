@@ -8,5 +8,5 @@ class Outofstock extends Model
 {
     protected $table = 'thoughtco_outofstock';
 
-    protected $fillable = ['type', 'type_id', 'location_id', ];
+    protected $fillable = ['type', 'type_id', 'location_id', 'timeout', ];
 }

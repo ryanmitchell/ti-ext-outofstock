@@ -6,6 +6,7 @@ use AdminMenu;
 use Admin\Facades\AdminLocation;
 use Admin\Models\Menu_option_values_model;
 use ApplicationException;
+use Carbon\Carbon;
 use Event;
 use Redirect;
 use Template;
@@ -44,6 +45,11 @@ class Menuitems extends \Admin\Classes\AdminController
 
         if (!AdminLocation::getId())
             $this->vars['noLocation'] = true;
+
+        Outofstock::where([
+            ['type', '=', 'menuitems'],
+            ['timeout', '<', Carbon::now()->format('Y-m-d H:i:s')]
+        ])->delete();
 
         Event::listen('admin.list.extendQuery', function($listWidget, $query) {
             $query->whereHas('option', function($subquery) {
@@ -87,8 +93,20 @@ class Menuitems extends \Admin\Classes\AdminController
             'location_id' => AdminLocation::getId(),
         ];
 
-        if (!Outofstock::where($params)->count())
+        if (!Outofstock::where($params)->count()) {
+
+            $hours = request('hours', '');
+            if ($hours != '' AND $hours != 'forever') {
+                if ($hours != 'closing') {
+                    $params['timeout'] = Carbon::now()->addHours(int ($hours))->format('Y-m-d H:i:s');
+                } else {
+                    if ($closing = AdminLocation::current()->newWorkingSchedule('opening')->getCloseTime())
+                        $params['timeout'] = $closing->format('Y-m-d H:i:s');
+                }
+            }
+
             $model = Outofstock::create($params)->save();
+        }
 
         return Redirect::back();
     }

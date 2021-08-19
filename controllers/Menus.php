@@ -6,6 +6,7 @@ use AdminMenu;
 use Admin\Facades\AdminLocation;
 use Admin\Models\Menus_model;
 use ApplicationException;
+use Carbon\Carbon;
 use Redirect;
 use Template;
 use Thoughtco\Outofstock\Models\Outofstock;
@@ -44,6 +45,11 @@ class Menus extends \Admin\Classes\AdminController
         if (!AdminLocation::getId())
             $this->vars['noLocation'] = true;
 
+        Outofstock::where([
+            ['type', '=', 'menus'],
+            ['timeout', '<', Carbon::now()->format('Y-m-d H:i:s')]
+        ])->delete();
+
         $this->asExtension('ListController')->index();
     }
 
@@ -80,8 +86,20 @@ class Menus extends \Admin\Classes\AdminController
             'location_id' => AdminLocation::getId(),
         ];
 
-        if (!Outofstock::where($params)->count())
+        if (!Outofstock::where($params)->count()) {
+
+            $hours = request('hours', '');
+            if ($hours != '' AND $hours != 'forever') {
+                if ($hours != 'closing') {
+                    $params['timeout'] = Carbon::now()->addHours(int ($hours))->format('Y-m-d H:i:s');
+                } else {
+                    if ($closing = AdminLocation::current()->newWorkingSchedule('opening')->getCloseTime())
+                        $params['timeout'] = $closing->format('Y-m-d H:i:s');
+                }
+            }
+
             $model = Outofstock::create($params)->save();
+        }
 
         return Redirect::back();
     }
