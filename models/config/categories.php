@@ -14,7 +14,7 @@ return [
 		        'menus' => [
 		            'label' => 'lang:thoughtco.outofstock::default.button_menuitems',
 		            'class' => 'btn btn-secondary',
-		            'href' => 'thoughtco/outofstock/categories',
+		            'href' => 'thoughtco/outofstock/menus',
 		        ],
 		        'menuitems' => [
 		            'label' => 'lang:thoughtco.outofstock::default.button_menuoptions',

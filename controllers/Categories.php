@@ -15,6 +15,7 @@ class Categories extends \Admin\Classes\AdminController
 {
     public $implement = [
         'Admin\Actions\ListController',
+        'Admin\Actions\LocationAwareController',
     ];
 
     public $listConfig = [
@@ -46,7 +47,7 @@ class Categories extends \Admin\Classes\AdminController
             $this->vars['noLocation'] = true;
 
         Outofstock::where([
-            ['type', '=', 'categories'],
+            ['type', '=', 'menuitems'],
             ['timeout', '<', Carbon::now()->format('Y-m-d H:i:s')]
         ])->delete();
 

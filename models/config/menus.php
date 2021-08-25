@@ -51,7 +51,6 @@ return [
 						    <a class="dropdown-item" href="'.admin_url('thoughtco/outofstock/menus/nostock/'.$value).'?hours=closing">'.lang('thoughtco.outofstock::default.button_closing').'</a>
 						    <a class="dropdown-item" href="'.admin_url('thoughtco/outofstock/menus/nostock/'.$value).'">'.lang('thoughtco.outofstock::default.button_forever').'</a>
 						  </div>';
-
 				}
 			],
 

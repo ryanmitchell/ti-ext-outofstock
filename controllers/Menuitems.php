@@ -16,6 +16,7 @@ class Menuitems extends \Admin\Classes\AdminController
 {
     public $implement = [
         'Admin\Actions\ListController',
+        'Admin\Actions\LocationAwareController',
     ];
 
     public $listConfig = [

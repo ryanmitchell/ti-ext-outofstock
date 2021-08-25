@@ -22,7 +22,7 @@ class Extension extends BaseExtension
                     ->where(function ($subquery) {
                         return $subquery->whereNull('timeout')
                             ->orWhere([
-                                ['timeout', '<', Carbon::now()->format('Y-m-d H:i:s')]
+                                ['timeout', '>', Carbon::now()->format('Y-m-d H:i:s')]
                             ]);
                     })
                     ->get()
@@ -33,7 +33,7 @@ class Extension extends BaseExtension
                     ->where(function ($subquery) {
                         return $subquery->whereNull('timeout')
                             ->orWhere([
-                                ['timeout', '<', Carbon::now()->format('Y-m-d H:i:s')]
+                                ['timeout', '>', Carbon::now()->format('Y-m-d H:i:s')]
                             ]);
                     })
                     ->get()
@@ -44,7 +44,7 @@ class Extension extends BaseExtension
                     ->where(function ($subquery) {
                         return $subquery->whereNull('timeout')
                             ->orWhere([
-                                ['timeout', '<', Carbon::now()->format('Y-m-d H:i:s')]
+                                ['timeout', '>', Carbon::now()->format('Y-m-d H:i:s')]
                             ]);
                     })
                     ->get()
