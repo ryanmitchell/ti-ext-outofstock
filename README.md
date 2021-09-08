@@ -13,4 +13,4 @@ In the admin user interface enable the extension.
 
 
 ### Stock management
-After installation you will have a new listing under "Restaurant" with your menu items, options and categories and the ability to mark them as out of stock until closing time, forever, or for any number of hours that you specify in System -> Settings -> Out of stock settings.
+After installation you will have a new listing under "Restaurant" with your menu options, while menus and categories listing will be amended with the ability to mark them as out of stock until closing time, forever, or for any number of hours that you specify in System -> Settings -> Out of stock settings.
