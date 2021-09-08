@@ -11,8 +11,9 @@ use Event;
 use Redirect;
 use Template;
 use Thoughtco\Outofstock\Models\Outofstock;
+use Thoughtco\OutOfStock\Models\Settings;
 
-class Menuitems extends \Admin\Classes\AdminController
+class Menuoptions extends \Admin\Classes\AdminController
 {
     public $implement = [
         'Admin\Actions\ListController',
@@ -25,7 +26,7 @@ class Menuitems extends \Admin\Classes\AdminController
             'title' => 'lang:thoughtco.outofstock::default.text_title',
             'emptyMessage' => 'lang:thoughtco.outofstock::default.text_empty',
             'defaultSort' => ['value', 'ASC'],
-            'configFile' => 'menuitems',
+            'configFile' => 'menuoptions',
             'showCheckboxes' => FALSE,
         ],
     ];
@@ -42,13 +43,8 @@ class Menuitems extends \Admin\Classes\AdminController
 
     public function index()
     {
-        $this->vars['noLocation'] = false;
-
-        if (!AdminLocation::getId())
-            $this->vars['noLocation'] = true;
-
         Outofstock::where([
-            ['type', '=', 'menuitems'],
+            ['type', '=', 'menuoptions'],
             ['timeout', '<', Carbon::now()->format('Y-m-d H:i:s')]
         ])->delete();
 
@@ -58,6 +54,21 @@ class Menuitems extends \Admin\Classes\AdminController
             });
         });
 
+        $this->vars['out_of_stock'] = Outofstock::where([
+            'type' => 'menuoptions',
+        ])->where(function($subquery) {
+            $location_id = AdminLocation::getId();
+            $subquery->where(['location_id' => $location_id]);
+            if (!is_null($location_id))
+                $subquery->orWhereNull('location_id');
+        })
+        ->get()
+        ->pluck('type_id');
+
+        $this->vars['out_of_stock_delays'] = collect(Settings::get('delay_times', []));
+        $this->vars['out_of_stock_url'] = admin_url('thoughtco/outofstock/menuoptions');
+        $this->vars['out_of_stock_location'] = AdminLocation::getId();
+
         $this->asExtension('ListController')->index();
     }
 
@@ -66,15 +77,21 @@ class Menuitems extends \Admin\Classes\AdminController
         if (!$id)
             abort(404);
 
-        $this->checkMenuItemExists($id);
+        $this->checkMenuOptionExists($id);
 
         $params = [
-            'type' => 'menuitems',
+            'type' => 'menuoptions',
             'type_id' => $id,
-            'location_id' => AdminLocation::getId(),
         ];
 
-        Outofstock::where($params)->each(function($model) {
+        Outofstock::where($params)
+        ->where(function($subquery) {
+            $location_id = AdminLocation::getId();
+            $subquery->where(['location_id' => $location_id]);
+            if (!is_null($location_id))
+                $subquery->orWhereNull('location_id');
+        })
+        ->each(function($model) {
             $model->delete();
         });
 
@@ -86,10 +103,10 @@ class Menuitems extends \Admin\Classes\AdminController
         if (!$id)
             abort(404);
 
-        $this->checkMenuItemExists($id);
+        $this->checkMenuOptionExists($id);
 
         $params = [
-            'type' => 'menuitems',
+            'type' => 'menuoptions',
             'type_id' => $id,
             'location_id' => AdminLocation::getId(),
         ];
@@ -112,7 +129,7 @@ class Menuitems extends \Admin\Classes\AdminController
         return Redirect::back();
     }
 
-    private function checkMenuItemExists($id)
+    private function checkMenuOptionExists($id)
     {
         if (!Menu_option_values_model::find($id))
             abort(404);

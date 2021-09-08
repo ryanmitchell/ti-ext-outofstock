@@ -16,7 +16,7 @@ class StockTables extends Migration
             $table->increments('id');
             $table->string('type', 15);
             $table->integer('type_id');
-            $table->integer('location_id');
+            $table->integer('location_id')->nullable();
             $table->dateTime('timeout')->nullable();
         });
     }

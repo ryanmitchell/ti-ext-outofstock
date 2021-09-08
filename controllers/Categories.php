@@ -31,29 +31,6 @@ class Categories extends \Admin\Classes\AdminController
 
     protected $requiredPermissions = 'Thoughtco.Outofstock.*';
 
-    public function __construct()
-    {
-        parent::__construct();
-
-        AdminMenu::setContext('restaurant', 'outofstock');
-        Template::setTitle(lang('lang:thoughtco.outofstock::default.text_title'));
-    }
-
-    public function index()
-    {
-        $this->vars['noLocation'] = false;
-
-        if (!AdminLocation::getId())
-            $this->vars['noLocation'] = true;
-
-        Outofstock::where([
-            ['type', '=', 'menuitems'],
-            ['timeout', '<', Carbon::now()->format('Y-m-d H:i:s')]
-        ])->delete();
-
-        $this->asExtension('ListController')->index();
-    }
-
     public function stock($context, $id = null)
     {
         if (!$id)

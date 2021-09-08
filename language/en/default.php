@@ -1,10 +1,8 @@
 <?php
 
 return [
-    'button_categories' => 'Categories',
     'button_closing' => 'Until closing',
     'button_forever' => 'Forever',
-    'button_menuitems' => 'Menu items',
     'button_menuoptions' => 'Menu options',
     'button_stock' => 'Back in stock',
     'button_nostock' => 'Out of stock',
@@ -21,7 +19,6 @@ return [
     'text_empty' => 'No results found',
     'text_permissions' => 'Use Out Of Stock views',
     'text_permissions_settings' => 'Manage Out Of Stock Settings',
-    'text_select_location' => 'Select a location',
     'text_settings_label' => 'Out of stock Settings',
     'text_settings_description' => 'Configure out of stock settings',
     'text_title' => 'Out of stock',
