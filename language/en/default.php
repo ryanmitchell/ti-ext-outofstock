@@ -3,7 +3,7 @@
 return [
     'button_closing' => 'Until closing',
     'button_forever' => 'Forever',
-    'button_menuoptions' => 'Menu options',
+    'button_menuoptions' => 'Menu Options',
     'button_stock' => 'Back in stock',
     'button_nostock' => 'Out of stock',
 
