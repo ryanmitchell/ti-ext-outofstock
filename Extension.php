@@ -135,7 +135,7 @@ class Extension extends BaseExtension
                 $menu_options[$id]->menu_option_values = $menu_option->menu_option_values->filter(function ($option_value) use ($cache_menu_items) {
                     return !$cache_menu_items->contains($option_value->option_value_id);
                 });
-            });
+            };
             $model->menu_options = $menu_options;
 
         });
