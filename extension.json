@@ -2,7 +2,7 @@
   "code": "thoughtco.outofstock",
   "name": "Out of stock",
   "description": "Lets you quickly manage out of stock menus, options and categories",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "ryanmitchell",
   "icon": {
     "class": "fa fa-times",
