@@ -39,6 +39,11 @@ class Extension extends BaseExtension
             if ($type == '')
                 return;
 
+            if (null === AdminLocation::getId()) {
+                $widget->removeColumn($primary_key);
+                return;
+            }
+
             $widget->vars['out_of_stock'] = Outofstock::where([
                 'type' => $type,
             ])->where(function($subquery) {
@@ -56,7 +61,7 @@ class Extension extends BaseExtension
 
             $widget->addColumns([
     			$primary_key => [
-    				'label' => '',
+    				'label' => 'STOCK',
     				'type' => 'partial',
     				'sortable' => FALSE,
                     'path' => 'extensions/thoughtco/outofstock/views/form/stock_column',
@@ -143,6 +148,10 @@ class Extension extends BaseExtension
 
     public function registerNavigation()
     {
+        if (null === AdminLocation::getId()) {
+            return;
+        }
+
         return [
             'restaurant' => [
                 'child' => [
