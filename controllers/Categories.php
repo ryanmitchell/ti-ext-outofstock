@@ -29,7 +29,7 @@ class Categories extends \Admin\Classes\AdminController
         ],
     ];
 
-    protected $requiredPermissions = 'Thoughtco.Outofstock.*';
+    protected $requiredPermissions = 'Thoughtco.OutOfStock.*';
 
     public function stock($context, $id = null)
     {

@@ -151,7 +151,7 @@ class Extension extends BaseExtension
                         'class' => 'pages',
                         'href' => admin_url('thoughtco/outofstock/menuoptions'),
                         'title' => lang('lang:thoughtco.outofstock::default.button_menuoptions'),
-                        'permission' => 'Thoughtco.Outofstock.*',
+                        'permission' => 'Thoughtco.OutOfStock.*',
                     ],
                 ],
             ],

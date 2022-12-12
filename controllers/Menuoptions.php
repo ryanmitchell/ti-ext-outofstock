@@ -31,7 +31,7 @@ class Menuoptions extends \Admin\Classes\AdminController
         ],
     ];
 
-    protected $requiredPermissions = 'Thoughtco.Outofstock.*';
+    protected $requiredPermissions = 'Thoughtco.OutOfStock.*';
 
     public function __construct()
     {
